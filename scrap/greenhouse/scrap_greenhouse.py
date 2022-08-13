@@ -48,11 +48,6 @@ companies = {
 
 
 
-companies = {
-    'invision': 'InVision'
-}
-
-
 url_base = 'https://boards.greenhouse.io'
 for company in companies.keys():
     
@@ -76,6 +71,7 @@ for company in companies.keys():
         # add timestamp if job is not in db yet
         if job_data['job_id'] not in listings.keys():
             job_data['datetime'] = pd.to_datetime(datetime.datetime.utcnow())
+            print('new role', job_data['company_name'], job_data['job_name'], job_data['job_id'], job_data['datetime'])
         
 
         # write to Fire Store (Content)
