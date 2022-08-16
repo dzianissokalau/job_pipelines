@@ -69,10 +69,10 @@ for company in companies.keys():
         job_data['img_url'] = 'https://storage.googleapis.com/findremote/' + company_name.lower() + '.jpg'
         
         # add timestamp if job is not in db yet
-        if job_data['job_id'] not in listings.keys():
+        if job_data['job_id'] not in listings.keys() or 'datetime' not in listings[job_data['job_id']].keys():
             job_data['datetime'] = pd.to_datetime(datetime.datetime.utcnow())
-            print('new role', job_data['company_name'], job_data['job_name'], job_data['job_id'], job_data['datetime'])
-        
+        else:
+            job_data['datetime'] = listings[job_data['job_id']]['datetime']        
 
         # write to Fire Store (Content)
         doc_ref = db.collection(u'listings').document(job_data['job_id'])
