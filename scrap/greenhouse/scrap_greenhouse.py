@@ -47,6 +47,7 @@ companies = {
 }
 
 
+new_listings = []
 
 url_base = 'https://boards.greenhouse.io'
 for company in companies.keys():
@@ -63,10 +64,16 @@ for company in companies.keys():
     results = response_html.find_all('div', class_='opening')
     for result in results:
         job_data = greenhouse.get_job_data(result)
+<<<<<<< HEAD
 
+=======
+        
+        new_listings.append(job_data['job_id'])
+>>>>>>> 2ea46ac10b0d635d855fda22a7b10ebf3b658669
         # additional data
         job_data['company_name'] = company_name
         job_data['img_url'] = 'https://storage.googleapis.com/findremote/' + company_name.lower() + '.jpg'
+        job_data['status'] = 'active'
         
         # add timestamp if job is not in db yet
         if job_data['job_id'] not in listings.keys() or 'datetime' not in listings[job_data['job_id']].keys():
@@ -80,3 +87,16 @@ for company in companies.keys():
         
         
         time.sleep(5)
+<<<<<<< HEAD
+=======
+
+
+# if past listings not in new listings set status "archived" 
+for lising in listings.keys():
+    if listing not in new_listings:
+        job_data = db.collection(u'listings').document(listing).get().to_dict()
+        job_data['status'] = 'archived'
+        # write to Fire Store (Content)
+        doc_ref = db.collection(u'listings').document(job_data['job_id'])
+        doc_ref.set(job_data)        
+>>>>>>> 2ea46ac10b0d635d855fda22a7b10ebf3b658669
