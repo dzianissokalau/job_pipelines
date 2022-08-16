@@ -14,7 +14,7 @@ import greenhouse
 
 
 #initializing firestore
-cert_path = os.path.abspath('../../../') + '/findremote-firebase-adminsdk-p9cw7-633a39d4a9.json'
+cert_path = '/home/densokolov88/github/' + 'findremote-firebase-adminsdk-p9cw7-633a39d4a9.json'
 cred = credentials.Certificate(cert_path)
 firebase_admin.initialize_app(cred)
 
@@ -50,7 +50,6 @@ companies = {
 
 url_base = 'https://boards.greenhouse.io'
 for company in companies.keys():
-    
     company_url = url_base + '/' + company
     response = requests.get(company_url)
     time.sleep(5)
@@ -64,6 +63,7 @@ for company in companies.keys():
     results = response_html.find_all('div', class_='opening')
     for result in results:
         job_data = greenhouse.get_job_data(result)
+
         # additional data
         job_data['company_name'] = company_name
         job_data['img_url'] = 'https://storage.googleapis.com/findremote/' + company_name.lower() + '.jpg'
