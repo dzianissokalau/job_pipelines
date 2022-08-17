@@ -74,7 +74,7 @@ print('lenght of listings: ', len(listings.keys()))
 # if past listings not in new listings set status "archived" 
 for lising in listings.keys():
     if listing not in new_listings:
-        print('archived: ', listing, url_base+job_data['job_url'])
+        print('archived: ', listing, listings[listing]['job_url'])
         job_data = db.collection(u'listings').document(listing).get().to_dict()
         job_data['status'] = 'archived'
         # write to Fire Store (Content)
