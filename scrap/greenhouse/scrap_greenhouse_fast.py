@@ -63,7 +63,7 @@ for company in companies.keys():
     # openings
     results = response_html.find_all('div', class_='opening')
     for result in results:
-        job_id = get_job_id(result)
+        job_id = greenhouse.get_job_id(result)
         new_listings.append(job_id)
         
 
