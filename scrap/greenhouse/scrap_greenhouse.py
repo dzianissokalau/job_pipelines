@@ -87,7 +87,7 @@ for company in companies.keys():
 
 
 # if past listings not in new listings set status "archived" 
-for lising in listings.keys():
+for listing in listings.keys():
     if listing not in new_listings:
         job_data = db.collection(u'listings').document(listing).get().to_dict()
         job_data['status'] = 'archived'
