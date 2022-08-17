@@ -110,3 +110,12 @@ def get_job_data(raw):
     job_data['tags_short'] = job_data['tags'][0:5] if len(job_data['tags']) >= 5 else job_data['tags']
     
     return job_data
+
+
+
+def get_job_id(raw):
+    job = raw.find('a')
+    job_url = job['href']
+    job_id = job_url.split('/')[-1]
+    
+    return job_id
