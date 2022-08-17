@@ -64,7 +64,7 @@ def get_tags(description):
 
 def get_job_description(job_url):
     # scrap job description
-    job_description_url = 'https://boards.greenhouse.io' + job_url
+    job_description_url = job_url
     job_description_response = requests.get(job_description_url)
     job_description_html = BeautifulSoup(job_description_response.content, 'html.parser')
     job_description = str(job_description_html.find('div', id='content'))
@@ -89,7 +89,7 @@ def get_job_data(raw):
     # link to job description + job_id + job name
     job = raw.find('a')
     job_data['job_name'] = job.text
-    job_data['job_url'] = job['href']
+    job_data['job_url'] = 'https://boards.greenhouse.io' + job['href']
     job_data['job_id'] = job_data['job_url'].split('/')[-1]
     
     # job roles (filter)
