@@ -1,6 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
+import tags
+import re
 
 
 
@@ -45,18 +47,10 @@ def get_roles(title):
 
 
 
-def get_tags(description):
-    # tags
-    tags_list = ['javascript',	'python',	'java',	'c#',	'php',	'android',	'html',	'jquery',	'c++',	'css',	'mysql',	'sql',	'nodejs',	'reactjs',	'asp.net',	'json',	'.net',	'sql-server',	'swift',	'django',	'objective-c',	'angular',	'pandas',	'regex',	'ruby',	'ajax',	'linux',	'xml',	'vba',	'spring',	'typescript',	'database',	'wordpress',	'wpf',	'mongodb',	'windows',	'postgresql',	'xcode',	'bash',	'oracle',	'git',	'aws',	'vb.net',	'multithreading',	'flutter',	'firebase',	'dataframe',	'eclipse',	'azure',	'react-native',	'docker',	'algorithm',	'visual-studio',	'scala',	'powershell',	'numpy',	'api',	'selenium',	'performance',	'winforms',	'vuejs',	'matlab',	'sqlite',	'shell',	'express',	'android-studio',	'csv',	'linq',	'maven',	'unit-testing',	'swing',	'tensorflow',	'kotlin',	'spark',	'dart',	'symfony',	'tsql',	'codeigniter',	'opencv',	'perl',	'unity3d',	'matplotlib',	'sockets',	'golang',	'cordova',	'xaml',	'oop',	'ubuntu',	'ms-access',	'parsing',	'elasticsearch',	'security',	'jsp',	'github',	'nginx',	'flask',	'machine-learning',	'delphi',	'kubernetes',	'haskell',	'xamarin',	'ssl',	'ggplot2',	'jenkins',	'gradle',	'visual-studio-code',	'google-apps-script',	'testing',	'tkinter',	'unix',	'google-app-engine',	's3',	'google-sheets',	'web-scraping',	'hadoop',	'mongo',	'heroku',	'animation',	'curl',	'math',	'actionscript',	'assembly',	'image-processing',	'keras',	'gcp',	'd3.js',	'magento',	'networking',	'javafx',	'optimization',	'google-cloud-firestore',	'facebook-graph-api',	'cocoa-touch',	'amazon-ec2',	'pyspark',	'xamarin.forms',	'jdbc',	'data-structures',	'dplyr',	'cakephp',	'awk',	'design-patterns',	'visual-c++',	'rust',	'beautifulsoup',	'ssh',	'kafka',	'sharepoint',	'bootstrap',	'vim',	'graph',	'silverlight',	'plsql',	'aws-lambda',	'scikit-learn',	'websocket',	'shiny',	'sass',	'vuejs2',	'deep-learning',	'extjs',	'apache-flex']
-
-    base = description.lower().replace('-', '').replace(' ', '')
+def get_tags_lists(tags_list, description):
+    job_tags = tags.get_list(tags_list, description)
     
-    tags = []
-    for tag in tags_list:
-        if tag.lower().replace('-', '').replace(' ', '') in base:
-            tags.append(tag)
-    
-    return tags    
+    return job_tags    
 
 
 
@@ -106,7 +100,7 @@ def get_job_data(raw):
     job_data['job_description'] = get_job_description(job_data['job_url']) 
     
     # tags
-    job_data['tags'] = get_tags(job_data['job_description'])
+    job_data['tags'] = get_tags_lists(tags.get_tags(), job_data['job_description']) 
     job_data['tags_short'] = job_data['tags'][0:5] if len(job_data['tags']) >= 5 else job_data['tags']
     
     return job_data
