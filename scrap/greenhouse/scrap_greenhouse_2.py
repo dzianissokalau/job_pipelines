@@ -80,10 +80,8 @@ for company in companies.keys():
             job_data['status'] = 'active'
             
             # add timestamp if job is not in db yet
-            if job_data['job_id'] not in listings.keys() or 'datetime' not in listings[job_data['job_id']].keys():
-                job_data['datetime'] = pd.to_datetime(datetime.datetime.utcnow())
-            else:
-                job_data['datetime'] = listings[job_data['job_id']]['datetime']        
+            job_data['datetime'] = pd.to_datetime(datetime.datetime.utcnow())
+            job_data['unix_timestamp'] = int((job_data['datetime'].replace(tzinfo=None) - datetime.datetime(1970, 1, 1)).total_seconds())        
 
             # write to Fire Store (Content)
             doc_ref = db.collection(u'listings').document(job_data['job_id'])

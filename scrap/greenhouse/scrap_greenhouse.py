@@ -79,7 +79,12 @@ for company in companies.keys():
         if job_data['job_id'] not in listings.keys() or 'datetime' not in listings[job_data['job_id']].keys():
             job_data['datetime'] = pd.to_datetime(datetime.datetime.utcnow())
         else:
-            job_data['datetime'] = listings[job_data['job_id']]['datetime']        
+            job_data['datetime'] = listings[job_data['job_id']]['datetime']  
+
+        if type(job_data['datetime']) == str:
+            job_data['unix_timestamp'] = int((datetime.datetime.strptime(job_data['datetime'], "%Y-%m-%d %H:%M:%S.%f") - datetime.datetime(1970, 1, 1)).total_seconds())
+        else:
+            job_data['unix_timestamp'] = int((job_data['datetime'].replace(tzinfo=None) - datetime.datetime(1970, 1, 1)).total_seconds())      
 
         # write to Fire Store (Content)
         doc_ref = db.collection(u'listings').document(job_data['job_id'])
