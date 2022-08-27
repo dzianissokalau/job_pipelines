@@ -66,14 +66,13 @@ for company in companies.keys():
     # openings
     results = response_html.find_all('div', class_='opening')
     for result in results:
-        job_id = raw.find('a')['href'].split('/')[-1]
-
+        job_id = result.find('a')['href'].split('/')[-1]
+        new_listings.append(job_id)
         if job_id not in listings.keys():
             print(f'new listing: {job_id}')
 
             job_data = greenhouse.get_job_data(result)
             
-            new_listings.append(job_data['job_id'])
 
             # additional data
             job_data['company_name'] = company_name
@@ -102,3 +101,4 @@ for listing in listings.keys():
         # write to Fire Store (Content)
         doc_ref = db.collection(u'listings').document(job_data['job_id'])
         doc_ref.set(job_data)
+
