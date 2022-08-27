@@ -71,9 +71,7 @@ def get_job_description(job_url):
     job_description = job_description.replace('h1', 'h4')
     
     return job_description
-    
-    
-    
+
 
 
 def get_job_data(raw):
