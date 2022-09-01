@@ -96,7 +96,7 @@ for company in companies.keys():
             time.sleep(5)
 
 
-
+"""
 # if past listings not in new listings set status "archived" 
 for listing in listings.keys():
     if listing not in new_listings:
@@ -105,4 +105,4 @@ for listing in listings.keys():
         # write to Fire Store (Content)
         doc_ref = db.collection(u'new_listings').document(job_data['job_id'])
         doc_ref.set(job_data)
-
+"""

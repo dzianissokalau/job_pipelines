@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+import unicodedata
 import pandas as pd
 import tags
 import re
@@ -62,7 +63,7 @@ def get_job_description(job_url):
     job_description_html = BeautifulSoup(job_description_response.content, 'html.parser')
     job_description = job_description_html.find_all('div', attrs={'class': 'section page-centered'})
     
-    job_description = ''.join([unicodedata.normalize("NFKD", str(d)) for d in description])
+    job_description = ''.join([unicodedata.normalize("NFKD", str(d)) for d in job_description])
     
     # unify job description
     job_description = job_description.replace('h5', 'h6')
@@ -93,7 +94,7 @@ def get_job_data(raw):
     
     
     # job location
-    job_data['location'] = result.find('span', class_='sort-by-location posting-category small-category-label').text
+    job_data['location'] = raw.find('span', class_='sort-by-location posting-category small-category-label').text
     job_data['location_simp'] = job_data['location'] if len(job_data['location']) <= 30 else 'Remote'
     
     # job description

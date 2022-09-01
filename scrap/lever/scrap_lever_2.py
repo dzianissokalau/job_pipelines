@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import time
 import datetime
+import unicodedata
 import json
 import os
 
@@ -36,6 +37,9 @@ for listing in listings_db:
 
     
 companies = {
+    'stackadapt': 'StackAdapt',
+    'benchsci': 'BenchSci',
+    'koho': 'KOHO',
     'spotify': 'Spotify',
     'binance': 'Binance',
     'kraken': 'Kraken',
@@ -44,9 +48,6 @@ companies = {
     'dbtlabs': 'dbt Labs',
     'clearbit': 'Clearbit',
     'sonatype': 'Sonatype',
-    'stackadapt': 'StackAdapt',
-    'benchsci': 'BenchSci',
-    'koho': 'KOHO',
     'gettyimages': 'gettyimages',
     'scribd': 'Scribd',
     'canva': 'Canva',
@@ -58,6 +59,7 @@ new_listings = []
 
 url_base = 'https://jobs.lever.co'
 for company in companies.keys():
+    print(company)
     company_url = url_base + '/' + company
     response = requests.get(company_url)
     time.sleep(5)
@@ -79,6 +81,8 @@ for company in companies.keys():
         job_data['img_url'] = 'https://storage.googleapis.com/findremote/' + company_name.lower() + '.jpg'
         job_data['status'] = 'active'
         
+
+        print(job_data['job_id'])
         # add timestamp if job is not in db yet
         if job_data['job_id'] not in listings.keys() or 'datetime' not in listings[job_data['job_id']].keys():
             job_data['datetime'] = pd.to_datetime(datetime.datetime.utcnow())
@@ -98,7 +102,7 @@ for company in companies.keys():
         time.sleep(5)
 
 
-
+"""
 # if past listings not in new listings set status "archived" 
 for listing in listings.keys():
     if listing not in new_listings:
@@ -108,3 +112,4 @@ for listing in listings.keys():
         doc_ref = db.collection(u'new_listings').document(job_data['job_id'])
         doc_ref.set(job_data)
 
+"""
