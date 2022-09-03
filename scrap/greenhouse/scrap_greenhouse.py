@@ -46,7 +46,23 @@ companies = {
     'monzo': 'Monzo', 
     'mozilla': 'Mozilla', 
     'autoscout24': 'Autoscout24',
-    'zapiercareers': 'Zapier' 
+    'zapiercareers': 'Zapier',
+    'opentable': 'OpenTable',
+    'gusto': 'gusto',
+    'gomotive': 'Motive',
+    'pleo': 'pleo',
+    'alpaca': 'Alpaca',
+    'grammarly': 'Grammarly',
+    'quora': 'Quora',
+    'goclio': 'Clio',
+    'anaconda': 'Anaconda',
+    'digit': 'Digit',
+    'canonical': 'Canonical',
+    'narvar': 'Narvar',
+    'leagueinc': 'League',
+    'fivetran': 'Fivetran',
+    'dataikujobs': 'Dataiku',
+    'reddit': 'Reddit'
 }
 
 
