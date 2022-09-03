@@ -72,34 +72,36 @@ for company in companies.keys():
     # openings
     results = response_html.find_all('div', class_='posting')
     for result in results:
-        job_data = lever.get_job_data(result)
-        
-        new_listings.append(job_data['job_id'])
+        job_id = result.find('a', attrs={'class': 'posting-title'})['href'].split('/')[-1]
+        new_listings.append(job_id)
 
-        # additional data
-        job_data['company_name'] = company_name
-        job_data['img_url'] = 'https://storage.googleapis.com/findremote/' + company_name.lower() + '.jpg'
-        job_data['status'] = 'active'
+        if job_id not in listings.keys():
+            job_data = lever.get_job_data(result)
+
+            # additional data
+            job_data['company_name'] = company_name
+            job_data['img_url'] = 'https://storage.googleapis.com/findremote/' + company_name.lower() + '.jpg'
+            job_data['status'] = 'active'
         
 
-        print(job_data['job_id'])
-        # add timestamp if job is not in db yet
-        if job_data['job_id'] not in listings.keys() or 'datetime' not in listings[job_data['job_id']].keys():
-            job_data['datetime'] = pd.to_datetime(datetime.datetime.utcnow())
-        else:
-            job_data['datetime'] = listings[job_data['job_id']]['datetime']  
+            print(job_data['job_id'])
+            # add timestamp if job is not in db yet
+            if job_data['job_id'] not in listings.keys() or 'datetime' not in listings[job_data['job_id']].keys():
+                job_data['datetime'] = pd.to_datetime(datetime.datetime.utcnow())
+            else:
+                job_data['datetime'] = listings[job_data['job_id']]['datetime']  
 
-        if type(job_data['datetime']) == str:
-            job_data['unix_timestamp'] = int((datetime.datetime.strptime(job_data['datetime'], "%Y-%m-%d %H:%M:%S.%f") - datetime.datetime(1970, 1, 1)).total_seconds())
-        else:
-            job_data['unix_timestamp'] = int((job_data['datetime'].replace(tzinfo=None) - datetime.datetime(1970, 1, 1)).total_seconds())      
+            if type(job_data['datetime']) == str:
+                job_data['unix_timestamp'] = int((datetime.datetime.strptime(job_data['datetime'], "%Y-%m-%d %H:%M:%S.%f") - datetime.datetime(1970, 1, 1)).total_seconds())
+            else:
+                job_data['unix_timestamp'] = int((job_data['datetime'].replace(tzinfo=None) - datetime.datetime(1970, 1, 1)).total_seconds())      
 
-        # write to Fire Store (Content)
-        doc_ref = db.collection(u'new_listings').document(job_data['job_id'])
-        doc_ref.set(job_data)
+            # write to Fire Store (Content)
+            doc_ref = db.collection(u'new_listings').document(job_data['job_id'])
+            doc_ref.set(job_data)
         
         
-        time.sleep(5)
+            time.sleep(5)
 
 
 """
