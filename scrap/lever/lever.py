@@ -85,6 +85,7 @@ def get_job_data(raw):
     job_data['job_name'] = job.find(attrs={'data-qa': 'posting-name'}).text
     job_data['job_url'] = job['href']
     job_data['job_id'] = job_data['job_url'].split('/')[-1]
+    job_data['job_source'] = 'lever'
     job_data['job_category'] = raw.find('span', class_='sort-by-team posting-category small-category-label').text
     
     # job roles (filter)

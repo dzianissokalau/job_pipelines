@@ -83,6 +83,7 @@ def get_job_data(raw):
     job_data['job_name'] = job.text
     job_data['job_url'] = 'https://boards.greenhouse.io' + job['href']
     job_data['job_id'] = job_data['job_url'].split('/')[-1]
+    job_data['job_source'] = 'greenhouse'
     
     # job roles (filter)
     roles = get_roles(job_data['job_name'])
