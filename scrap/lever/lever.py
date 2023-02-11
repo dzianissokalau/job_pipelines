@@ -86,7 +86,7 @@ def get_job_data(raw):
     job_data['job_url'] = job['href']
     job_data['job_id'] = job_data['job_url'].split('/')[-1]
     job_data['job_source'] = 'lever'
-    job_data['job_category'] = raw.find('span', class_='sort-by-team posting-category small-category-label').text
+    job_data['job_category'] = raw.find('span', class_='sort-by-team posting-category small-category-label department').text
     
     # job roles (filter)
     roles = get_roles(job_data['job_name'])
@@ -95,7 +95,7 @@ def get_job_data(raw):
     
     
     # job location
-    job_data['location'] = raw.find('span', class_='sort-by-location posting-category small-category-label').text
+    job_data['location'] = raw.find('span', class_='sort-by-location posting-category small-category-label location').text
     job_data['location_simp'] = job_data['location'] if len(job_data['location']) <= 30 else 'Remote'
     
     # job description
