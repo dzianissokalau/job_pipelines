@@ -109,8 +109,8 @@ for company in companies.keys():
 # if past listings not in new listings set status "archived" 
 for listing in listings.keys():
     if listing not in new_listings:
-        job_data = db.collection(u'listings').document(listing).get().to_dict()
+        job_data = db.collection(u'new_listings').document(listing).get().to_dict()
         job_data['status'] = 'archived'
         # write to Fire Store (Content)
-        doc_ref = db.collection(u'listings').document(job_data['job_id'])
+        doc_ref = db.collection(u'new_listings').document(job_data['job_id'])
         doc_ref.set(job_data)  
